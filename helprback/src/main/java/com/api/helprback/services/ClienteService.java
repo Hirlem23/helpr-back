@@ -8,6 +8,7 @@ import com.api.helprback.repositories.PessoaRepository;
 import com.api.helprback.services.exceptions.DataIntegrityViolationException;
 import com.api.helprback.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -24,6 +25,9 @@ public class ClienteService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     public Cliente findById(Integer id) {
         Optional<Cliente> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!: "+id));
@@ -36,6 +40,7 @@ public class ClienteService {
 
     public Cliente create(@Valid ClienteDTO objDto) {
         objDto.setId(null);
+        objDto.setSenha(encoder.encode(objDto.getSenha()));
         validaPorCpfEEmail(objDto);
         Cliente newObj = new Cliente(objDto);
         return repository.save(newObj);
