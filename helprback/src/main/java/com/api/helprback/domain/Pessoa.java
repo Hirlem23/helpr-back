@@ -2,7 +2,6 @@ package com.api.helprback.domain;
 
 import com.api.helprback.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
